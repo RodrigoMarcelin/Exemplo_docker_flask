@@ -1,33 +1,54 @@
-# Implementação de docker com flask e postgres
-## Guia de instalação:
-### Clonando rep:
+# Projeto base para projetos que utilizam Docker com imagens Postgres e Flask
 
-para clonar o repositório adicione o seguinte coando no terminal:
+### Desenvolvedores
+* Rodrigo Marcelino
+* Matheus Santos
+* Yasmin Araujo
+
+## Introdução
+
+Nesse repositório foi desenvolvido uma build base em containers Docker para projetos que utilizam o framework Flask e o sistema gerenciador de banco de dados Postgres.
+
+## Guia de instalação:
+### Clonando o repositório:
+
+Para clonar o repositório adicione o seguinte comando no terminal:
 ```
 git clone https://github.com/RodrigoMarcelin/exemplo_docker_flask.git
 ```
+
 ### Executando o container:
-entre na pasta do projeto pelo terminal, e insira o comando 
+Entre na pasta do projeto pelo terminal e insira o comando: 
 ```
 docker-compose up -d
 ```
-testar o aplicativo em:
+Para verificar se os containers estão em execução:
 
 ```
-localhost:5000
+docker ps
 ```
-## Funcionamento:
-### Estrutura do projeto:
-O projeto é dividido em três partes, templates HTML, app Python, banco de dados Postgres, 
-a camada template e o app python são executados em um container e o banco de dados é executado em outro.
+Para acessar a aplicação no navegador:
 
-A imagem a seguir representa a estrutura do progeto:
+```
+http://localhost:5000
+```
+## Estrutura do projeto:
+
+O projeto é dividido em três partes, templates para os arquivos HTML, aplicação Flask e banco de dados Postgres, a camada template e o app python são executados em um container chamado "web" e o banco de dados é executado no container chamado "bd"
+
+A imagem a seguir representa a estrutura do projeto:
 
 ![](https://github.com/RodrigoMarcelin/exemplo_docker_flask/blob/master/imagens/estrutura_do_projeto.jpeg)
 
 ### Docker File:
-Docker file é o servidor flask, onde é utilizado a imagem flask-crud-base, onde é criada a pasta que ficarão os arquivos do projeto "./app /home/app/",
-definido a porta de execução "5000", e entrypoint para definir o tipo de execução do processo
+Dockerfile contem a base para a aplicação em flask, onde são definidos:
+
+* Imagem utilizada: flask-crud-base,
+* Criação e pastas: /app e /home/app,
+* Porta para exposição da aplicação: 5000
+* Forma de instruções: Python 3
+
+Exemplo:
 
 ```
 FROM fanoftal2/flask-crud-base:1
@@ -40,8 +61,21 @@ EXPOSE 5000
 ENTRYPOINT ["python3", "app.py"]
 ```
 ### Docker-compose:
-O docker-compose permite criar conteiners, para funcionar na mesma rede e possui relações entre si, no caso desse projeto são criads dois serviços web e db,
-onde o web só executa após a criação do db e são defidas as portas e diretórios com volumes.
+O docker-compose permite criar grupos de conteiners, que funcionam na mesma rede e possui relações entre si, no caso desse projeto são criados dois serviços, "web" e "db".
+
+As instruções definidas no docker-compose são:
+1. WEB
+* A base da aplicação é: .
+* Portas de rede espelhadas do container e do SO: 5000:5000
+* Diretórios espelhados do container e do SO: ./app/:/home/app
+
+
+2. DB
+* A imagens utilizada é: postgres:10
+* As variáveis de ambiente estão em: .env
+* Porta exposta é: 5432
+
+Exemplo:
 
 ```
 version: "3"
