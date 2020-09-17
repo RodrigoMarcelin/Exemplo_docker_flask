@@ -1,9 +1,9 @@
 # Projeto base para projetos que utilizam Docker com imagens Postgres e Flask
 
 ### Desenvolvedores
-* Rodrigo Marcelino
-* Matheus Santos
-* Yasmin Araujo
+* [Rodrigo Marcelino](https://github.com/RodrigoMarcelin)
+* [Matheus Santos](https://github.com/matheuscosantos)
+* [Yasmin Araujo](https://github.com/yasminaraujoarantes)
 
 ## Introdução
 
@@ -91,7 +91,10 @@ services:
   db:
     image: postgres:10
     env_file: .env
-    expose:
-      - 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - /docker/volumes/postgres:/var/lib/postgresql/data
 ```
 
+[Link para o repositório](https://github.com/RodrigoMarcelin/exemplo_docker_flask)
