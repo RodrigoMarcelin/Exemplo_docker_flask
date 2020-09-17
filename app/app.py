@@ -7,7 +7,7 @@ DBUSER = 'rodrigo'
 DBPASS = 'rodrigo'
 DBHOST = 'db'
 DBPORT = '5432'
-DBNAME = 'testdb'
+DBNAME = 'db'
 
 
 app = Flask(__name__)
